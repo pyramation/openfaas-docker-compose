@@ -1,0 +1,13 @@
+version: 1.0
+provider:
+  name: openfaas
+functions:
+  node12:
+    lang: node12
+    handler: ./functions/node12
+    image: node12:latest
+
+  python3-flask:
+    lang: python3-flask
+    handler: ./functions/python3-flask
+    image: python:latest

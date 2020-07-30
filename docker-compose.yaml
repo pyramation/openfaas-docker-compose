@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  node12:
+    build:
+      context: ./template/node12
+    ports:
+      - 3000:3000
+    environment:
+      fprocess: nodemon index.js
+    secrets:
+      - example
+    volumes:
+      - ./functions/node12:/home/app/function
+    user: root
+    command: sh -c "npm i -g nodemon && fwatchdog"
+
+  python3-flask:
+    build:
+      context: ./template/python3-flask
+    ports:
+      - 3001:8080
+    environment:
+      FLASK_APP: /home/app/index.py
+      FLASK_ENV: development
+      fprocess: flask run
+    volumes:
+      - ./functions/python3-flask:/home/app/function
+    user: root
+
+secrets:
+  example:
+    file: ./secrets/example
