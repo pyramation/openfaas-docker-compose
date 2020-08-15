@@ -1,5 +1,19 @@
 version: '3.7'
 services:
+  golang-http:
+    build:
+      context: ./template/golang-http
+      target: build
+    ports:
+      - 3002:8080
+    environment:
+      fprocess: air -c /go/src/handler/function/.air.toml
+      mode: http
+      upstream_url: http://127.0.0.1:8082
+    volumes:
+      - ./functions/golang-http:/go/src/handler/function
+    command: sh -c "go get -u github.com/cosmtrek/air && fwatchdog"
+
   node12:
     build:
       context: ./template/node12

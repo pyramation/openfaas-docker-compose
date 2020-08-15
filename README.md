@@ -64,3 +64,25 @@ Port: 3001
 ```shell script
 curl -d '{"input": "data" }' -H 'content-type: application/json' localhost:3001
 ```
+
+### Go
+
+Port: 3002
+
+```shell script
+curl -d '{"input": "data" }' -H 'content-type: application/json' localhost:3002
+```
+
+This one is a little more involved than NodeJS/Python because the Go template
+builds a binary and puts it into an empty Alpine container. We have to intercept
+the build process to use the GoLang template by setting the `build.target` parameter
+to `build` (see [Docker Multi-Stage builds](https://docs.docker.com/develop/develop-images/multistage-build/)
+for more information). As the OpenFaaS configuration is done in the final container,
+we need to apply this configuration to the `build` target. This means setting the
+`mode` and `upstream_url` environment variables.
+
+Finally, this uses the Go package [Air](https://github.com/cosmtrek/air) to provide
+the live reload facility. This requires a config file, even if there's nothing inside
+it. As we won't need this in production, there's a `.dockerignore` file to not send
+it to the image when building. However, the Docker Compose `volumes` ignores this,
+which is exactly what we need.

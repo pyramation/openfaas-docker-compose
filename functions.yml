@@ -2,6 +2,11 @@ version: 1.0
 provider:
   name: openfaas
 functions:
+  golang-http:
+    lang: golang-http
+    handler: ./functions/golang-http
+    image: golang-http:latest
+
   node12:
     lang: node12
     handler: ./functions/node12
